@@ -1,0 +1,48 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce
+    username: postgresql
+    password: postgresql
+  jpa:
+    hibernate:
+      ddl-auto: create-drop # make it update after first run
+    properties:
+      hibernate:
+        format_sql: true
+  redis:
+    host: localhost
+    port: 6379
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: example@example.com
+    password: abcd efgh ijkl mnop
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+jwt:
+  access-secret: "${JWT_ACCESS_SECRET:bXlSZXNldFdEtleUZvclNoYWFkaVNlNoYWFkaVNoYXJ0aGkxMjM0NTY3ODkwxMjM0NTY3ODkw}"
+  access-expiry-seconds: 86400000 # 24h in ms
+  # refresh tokens are opaque and stored in Redis
+
+# application-specific
+app:
+  frontend-origin: https://app.example.com
+  cookie:
+    domain: example.com
+    access-cookie-name: access_token
+    refresh-cookie-name: refresh_token
+    xsrf-cookie-name: XSRF-TOKEN
+
+logging:
+  level:
+    root: INFO
+    com.ecommerce: DEBUG
