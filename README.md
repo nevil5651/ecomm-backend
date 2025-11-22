@@ -19,7 +19,7 @@ This module handles user authentication for the e-commerce platform, including r
 - Redis
 - Spring Data JPA
 - Spring Mail (with Thymeleaf)
-- MySQL (or any relational database)
+- PostgreSQL
 
 ## Setup
 
@@ -50,10 +50,6 @@ The module supports OAuth2 login. Currently, it is designed to handle multiple p
 ## Exception Handling
 
 Custom exceptions are thrown for various error conditions and are handled by a global exception handler which returns structured JSON responses.
-
-## Contributing
-
-Please read the contributing guidelines before submitting pull requests.
 
 ## License
 
