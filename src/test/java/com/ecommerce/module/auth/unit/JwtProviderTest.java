@@ -1,30 +1,32 @@
 package com.ecommerce.module.auth.unit;
 
 import com.ecommerce.module.auth.security.JwtTokenProvider;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-    
-public class JwtTokenProviderTest {
+
+class JwtProviderTest {
 
     @Test
     void createAndParseToken() {
         JwtTokenProvider provider = new JwtTokenProvider();
-        // set secret via reflection for test (must be 256+ bits in bytes)
+        // set secret and expiry using reflection (since provider reads @Value in real
+        // app)
         ReflectionTestUtils.setField(provider, "accessSecret",
-                "replace_with_256_bit_minimum_string_for_tests_only________________________");
+                "a_very_long_secret_for_testing_purpose_at_least_256_bits_a".repeat(2));
         ReflectionTestUtils.setField(provider, "accessExpirySeconds", 3600L);
 
-        String token = provider.createAccessToken(123L, "a@b.com", List.of("CUSTOMER"));
+        String token = provider.createAccessToken(123L, "x@e.com", List.of("CUSTOMER"));
         assertThat(token).isNotBlank();
 
         Jws<Claims> parsed = provider.parse(token);
-        assertThat(parsed.getBody().getSubject()).isEqualTo("123");
-        assertThat(parsed.getBody().get("email")).isEqualTo("a@b.com");
+        Claims claims = parsed.getBody();
+        assertThat(claims.getSubject()).isEqualTo("123");
+        assertThat(claims.get("email")).isEqualTo("x@e.com");
     }
 }
